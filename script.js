@@ -21,7 +21,7 @@ let delta = {x:0,y:0};
 let input = {x:0,y:0};
 let output = 0;
 
-const fpsBoost = 1; // {x | x >= 1 , x ∈ ℤ }
+const fpsBoost = 2; // {x | x >= 1 , x ∈ ℤ }
 
 let updateFrame = 0;
 
@@ -63,6 +63,10 @@ function update() {
         delta.y = (bars[3]+bars[5])/2 - bird.pos;
         input.x = round(map(delta.x, -125, 1210, 1, 0),2);
         input.y = round(map(delta.y, -640, 640, 0, 1),2);
+
+        if(delta.y < -50) {
+            jump = true;
+        }
         
         if(bars[0] < -60) { for (let i = 0; i < 4; i++) {
             bars.shift();  // deletes unused bars
@@ -116,11 +120,12 @@ function displayVariables() {
     text('bars = ' + bars, 10, 20 +15 * 5);
     text('frameCount = ' + (updateFrame), 10, 20 +15 * 6);
     text('frameRate = ' + round(frameRate()*fpsBoost), 10, 20 +15 * 7);
+    text('fpsBoostEffectiveness = ' + (round(frameRate())), 10, 20 +15 * 8);
 
-    text('childFrameCount = ' + childFrameCount, 10, 20 +15 * 9);
-    text('child = ' + child, 10, 20 +15 * 10);
-    text('score = ' + score, 10, 20 +15 * 11);
-    text('highscore = ' + highscore, 10, 20 +15 * 12);
+    text('childFrameCount = ' + childFrameCount, 10, 20 +15 * 10);
+    text('child = ' + child, 10, 20 +15 * 11);
+    text('score = ' + score, 10, 20 +15 * 12);
+    text('highscore = ' + highscore, 10, 20 +15 * 13);
 
     text('delta.x = ' + delta.x, 10, 600 +15 * 0);
     text('delta.y = ' + delta.y, 10, 600 +15 * 1);
