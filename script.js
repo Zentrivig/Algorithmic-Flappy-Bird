@@ -23,6 +23,8 @@ let output = 0;
 
 const fpsBoost = 2; // {x | x >= 1 , x ∈ ℤ }
 
+const graphicsActive = true;
+
 let updateFrame = 0;
 
 
@@ -109,6 +111,10 @@ function mousePressed() {
 }
 
 function displayVariables() {
+    if(graphicsActive == true) {
+        rotate(-bird.dir);
+        translate(-70,-bird.pos);
+    }
     fill(0,255,0);
     strokeWeight(0);  
     textSize(12);   
@@ -134,6 +140,45 @@ function displayVariables() {
     text('output = ' + round(output,2), 10, 600 +15 * 4);
 }
 
+function draw() {
+    update();
+    background(60,80,250);
+    if(graphicsActive == true) {
+        displayAiEyes();
+        drawBars(); 
+        drawEnvironment();
+        drawBird();
+    }
+    displayVariables();
+}
+
+function drawBars() {
+    stroke(50,230,32);
+    for (let i = 0; i < bars.length / 4; i++) {
+        fill(43, 161, 0);
+        strokeWeight(5);
+        stroke(0);
+        rect(bars[0 + 4 * i], bars[1 + 4 * i], bars[2 + 4 * i], bars[3 + 4 * i]);
+    }
+}
+
+function drawBird() {
+    translate(70, bird.pos);
+    rotate(bird.dir);
+    image(birdimg, 0, 0);
+}
+
+function drawEnvironment() {
+    stroke(161, 105, 0);
+    point(0, 0);
+    strokeWeight(60);
+    line(0, 720, 1280, 720);
+    stroke(133, 240, 0);
+    strokeWeight(8);
+    line(0, 690, 1280, 690);
+    strokeWeight(7);
+}
+
 function displayAiEyes() {
     stroke(50);
     strokeWeight(5);
@@ -146,42 +191,4 @@ function displayAiEyes() {
     strokeWeight(0);
     text(delta.y, 75, (bird.pos+(bars[3]+bars[5])/2)/2)
     text(delta.x, (70+bars[0])/2, (bars[3]+bars[5])/2-10)
-}
-
-function draw() {
-
-        update();
-        
-        background(60,80,250);
-
-        displayVariables();
-
-        displayAiEyes();
-
-        stroke(50,230,32);
-
-
-
-        for (let i = 0; i < bars.length/4; i++) {
-            fill(43, 161, 0);
-            strokeWeight(5);
-            stroke(0);
-            rect(bars[0+4*i],bars[1+4*i],bars[2+4*i],bars[3+4*i]);
-        } 
-
-
-        //draw environment
-        stroke(161,105,0);
-        point(0,0);
-        strokeWeight(60);
-        line(0,720,1280,720);
-        stroke(133, 240, 0);
-        strokeWeight(8);
-        line(0,690,1280,690);
-        strokeWeight(7);
-
-        // draw bird
-        translate(70, bird.pos);
-        rotate(bird.dir);
-        image(birdimg, 0, 0);
 }
