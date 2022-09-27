@@ -21,20 +21,13 @@ let delta = {x:0,y:0};
 let input = {x:0,y:0};
 let output = 0;
 
-const fpsBoost = 2; // {x | x >= 1 , x ∈ ℤ }
+const fpsBoost = 200; // {x | x >= 1 , x ∈ ℤ }
 
 const negativeIntervals = 4; // in updateFrames
 
 const graphicsActive = true;
 
 let updateFrame = 0;
-
-
-let inputRTDX  = [];
-let inputRTDY  = [];
-let outputRTD = [];
-
-let trainingData = [];
 
 function preload() {
     birdimg = loadImage('assets/bird.png');
@@ -71,15 +64,7 @@ function update() {
         input.x = round(map(delta.x, -125, 1210, 1, 0),2);
         input.y = round(map(delta.y, -640, 640, 0, 1),2);
 
-        if(delta.y < -50) {
-            inputRTD.push({x:input.x,y:input.y});
-            outputRTD.push(1);
-            jump = true;
-        }  else if(updateFrame/negativeIntervals == round(updateFrame/negativeIntervals)){
-            inputRTDX.push(input.x);
-            inputRTDY.push(input.y);
-            outputRTD.push(0);
-        }
+        if(delta.y < -50) {jump = 1}
         
         if(bars[0] < -60) { for (let i = 0; i < 4; i++) {
             bars.shift();  // deletes unused bars
@@ -111,13 +96,7 @@ function kill() {
 
     generateBar(round(random(10,1000)));
 
-    if(highscore < score) {highscore = score}
-
-    for(let i = 0; i < outputRTD.length; i++) {
-        trainingData.push("{input:["+inputRTDX[i]+","+inputRTDY[i]+"],output:["+outputRTD[i]+"]}");
-    }
-
-    
+    if(highscore < score) {highscore = score}   
 
 }
 
@@ -151,8 +130,6 @@ function displayVariables() {
     text('score = ' + score, 10, 20 +15 * 12);
     text('highscore = ' + highscore, 10, 20 +15 * 13);
 
-    text('inputRTD = ' + inputRTD, 10, 600 +15 * -2);
-    text('outputRTD = ' + outputRTD, 10, 600 +15 * -1);
     text('delta.x = ' + delta.x, 10, 600 +15 * 0);
     text('delta.y = ' + delta.y, 10, 600 +15 * 1);
     text('input.x = ' + input.x, 10, 600 +15 * 2);
