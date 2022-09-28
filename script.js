@@ -21,7 +21,7 @@ let delta = {x:0,y:0};
 let input = {x:0,y:0};
 let output = 0;
 
-const fpsBoost = 200; // {x | x >= 1 , x ∈ ℤ }
+const fpsBoost = 2; // {x | x >= 1 , x ∈ ℤ }
 
 const negativeIntervals = 4; // in updateFrames
 
